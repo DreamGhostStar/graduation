@@ -1,0 +1,47 @@
+.input {
+    margin-top: 10px;
+    display: none;
+
+    &_show {
+        display: block;
+    }
+}
+
+.emoji_layout {
+    position: relative;
+
+    .emoji_icon_layout {
+        display: none;
+        cursor: pointer;
+        position: relative;
+
+        $emojiActive: #1e80ff;
+
+        &:hover {
+            color: $emojiActive;
+        }
+
+        &_show {
+            display: flex;
+            align-items: center;
+            margin-top: 7px;
+        }
+
+        &_active {
+            color: $emojiActive;
+        }
+
+        .emoji_icon {
+            font-size: 16px;
+        }
+
+        .emoji_text {
+            margin-left: 6px;
+        }
+    }
+
+    .emoji {
+        position: absolute;
+        z-index: 3;
+    }
+}

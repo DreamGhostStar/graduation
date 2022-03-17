@@ -1,0 +1,29 @@
+.layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    .main {
+        width: 320px;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .image_layout {
+            display: flex;
+            justify-content: center;
+            transform: translateY(-20px);
+
+            .project_name {
+                user-select: none;
+                color: grey;
+                font-weight: bold;
+                font-size: 22px;
+                line-height: 60px;
+                margin-left: 8px;
+            }
+        }
+    }
+}

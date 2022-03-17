@@ -1,0 +1,27 @@
+.input {
+    width: 100%;
+    margin: 10px;
+}
+
+.button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.error_text {
+    color: red;
+    text-align: left;
+    width: 100%;
+}
+
+.another_operation_layout {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #1890ff;
+
+    .another_operation_text {
+        cursor: pointer;
+    }
+}

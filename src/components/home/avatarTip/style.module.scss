@@ -1,0 +1,23 @@
+.row_layout {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+
+    .icon {
+        font-size: 22px;
+    }
+
+    .text {
+        margin-left: 10px;
+        font-size: 16px;
+    }
+}
+
+.divider {
+    margin: 10px 0;
+}
+
+.ant-modal-content {
+  border-radius: 20px;
+}

@@ -1,0 +1,23 @@
+.layout {
+    padding: 14px;
+
+    .title {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .input_layout {
+        .input_item_layout {
+            margin: 14px 0;
+
+            .input {
+                width: 70%;
+                margin: 5px 0;
+            }
+
+            .error_text {
+                color: red;
+            }
+        }
+    }
+}

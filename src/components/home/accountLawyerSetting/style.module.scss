@@ -1,0 +1,47 @@
+.layout {
+    padding: 14px;
+
+    .title {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .occupation_layout {
+        display: flex;
+        justify-content: space-between;
+        margin-right: 40px;
+    }
+
+    .input_layout {
+        .input_item_layout {
+            margin: 14px 0;
+
+            .input_title_layout {
+                display: flex;
+                margin-bottom: 5px;
+
+                .title_sign {
+                    color: red;
+                    margin-right: 5px;
+                }
+            }
+
+            .input_item_title {
+                margin-bottom: 5px;
+            }
+
+            .input {
+                width: 70%;
+                margin: 5px 0;
+            }
+
+            .error_text {
+                color: red;
+            }
+        }
+
+        .button {
+            margin-top: 20px;
+        }
+    }
+}

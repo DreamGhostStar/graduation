@@ -1,0 +1,42 @@
+.input {
+    width: 100%;
+    margin: 10px;
+}
+
+.input_verify_code_layout {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+
+    .input_verify_code {
+        width: 40%;
+    }
+
+    .verify_img {
+        width: 40%;
+    }
+}
+
+.button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.error_text {
+    color: red;
+    text-align: left;
+    width: 100%;
+}
+
+.another_operation_layout {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #1890ff;
+
+    .another_operation_text {
+        cursor: pointer;
+    }
+}

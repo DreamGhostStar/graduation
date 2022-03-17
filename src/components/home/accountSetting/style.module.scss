@@ -1,0 +1,41 @@
+.layout {
+    display: flex;
+    border-radius: 10px;
+
+    .sidebar {
+        width: 256px;
+        background-color: #eee;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        padding: 10px 0;
+        height: 500px;
+
+        .title {
+            margin-left: 20px;
+            font-size: 18px;
+            border-top-left-radius: 10px;
+        }
+
+        .sidebar_item_layout {
+            width: 216px;
+            margin-left: 30px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+
+            &_active {
+                background-color: rgba(0, 195, 238, 0.08);
+                color: #00c3ee;
+            }
+
+            &:hover {
+                color: #00c3ee;
+            }
+        }
+    }
+
+    .main {
+        flex-grow: 1;
+    }
+}

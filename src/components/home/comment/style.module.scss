@@ -1,0 +1,132 @@
+.layout {
+    $activeColor: #1e80ff;
+
+    .first_layout {
+        position: relative;
+
+        .title {
+            font-size: 22px;
+        }
+
+        .first_comment_input_layout {
+            display: flex;
+            margin-top: 30px;
+
+            .first_comment_input {
+                margin-left: 40px;
+            }
+        }
+
+        .first_operation_layout {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0 25px 90px;
+            height: 40px;
+            align-items: center;
+
+            .emoji_layout {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+
+                &_active {
+                    color: $activeColor;
+                }
+
+                .emoji_icon {
+                    font-size: 16px;
+                }
+
+                .emoji_text {
+                    margin-left: 6px;
+                }
+            }
+        }
+
+        .emoji {
+            position: absolute;
+            top: 100%;
+            z-index: 3;
+            display: none;
+
+            &_show {
+                display: block;
+            }
+        }
+    }
+
+    .comment_layout {
+
+        .list_item_layout {
+            padding: 10px 0;
+
+            .author_layout {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .author_info_layout {
+                    display: flex;
+
+                    .author_name {
+                        margin-left: 10px;
+                        font-weight: bold;
+                    }
+
+                    .reply_text {
+                        margin-left: 10px;
+                    }
+                }
+            }
+
+            .content_layout {
+                margin-left: 40px;
+                margin-top: 2px;
+
+                .content {
+                    margin-bottom: 8px;
+                }
+
+                .operation_layout {
+                    display: flex;
+
+                    .operation_item_layout {
+                        display: flex;
+                        align-items: center;
+                        margin-right: 15px;
+                        cursor: pointer;
+
+                        .operation_text {
+                            display: inline-block;
+                            margin-left: 5px;
+                        }
+
+                        .operation_icon {
+                            font-size: 18px;
+                            color: grey;
+                        }
+
+                        .operation_active_icon {
+                            color: red;
+                        }
+
+                        .operation_active_comment_icon {
+                            color: $activeColor;
+                        }
+                    }
+
+                    .operation_active_comment {
+                        color: $activeColor;
+                    }
+                }
+            }
+
+            .children_layout {
+                margin-left: 40px;
+                background-color: rgba(247, 248, 250, 0.7);
+                padding: 10px 15px;
+                margin-top: 20px;
+            }
+        }
+    }
+}

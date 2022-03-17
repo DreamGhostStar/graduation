@@ -1,0 +1,73 @@
+.layout {
+    padding: 40px 80px;
+    overflow-y: scroll;
+    flex-grow: 1;
+    position: relative;
+    margin-bottom: 50px;
+
+    .author_layout {
+        display: flex;
+        justify-content: space-between;
+
+        .author_info_layout {
+            display: flex;
+
+            .info_layout {
+                margin-left: 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+
+                .author_name {
+                    margin: 0;
+                }
+
+                .introduction {
+                    color: grey;
+                }
+            }
+        }
+    }
+
+    .title {
+        text-align: center;
+        font-size: 32px;
+        margin-top: 20px;
+    }
+
+    .content {
+        z-index: 1;
+        margin-bottom: 40px;
+    }
+
+    .operation_layout {
+        position: fixed;
+        bottom: 0;
+        background-color: white;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: flex-start;
+        z-index: 3;
+
+        .operation_item_layout {
+            display: flex;
+            margin-right: 40px;
+            height: 40px;
+            align-items: center;
+
+            .operation_icon {
+                font-size: 24px;
+                color: grey;
+            }
+
+            .operation_active_icon {
+                color: red;
+            }
+
+            .number {
+                margin-left: 5px;
+            }
+        }
+    }
+}

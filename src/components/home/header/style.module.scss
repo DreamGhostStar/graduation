@@ -1,0 +1,15 @@
+.layout {
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 150px;
+    flex-grow: 1;
+    height: 50px;
+
+    .title {
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 50px;
+    }
+}
