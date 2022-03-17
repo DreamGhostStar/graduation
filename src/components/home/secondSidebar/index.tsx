@@ -5,14 +5,18 @@ import styles from './style.module.scss';
 import { MyIcon } from 'utils';
 import { IPostsItem } from 'api/posts';
 import { IGetListInfo } from 'pages/home';
+import { ICaseItem } from 'api/case';
 
 interface ISecondSidebarProps {
-    list: IPostsItem[];
+    list: (IPostsItem | ICaseItem)[];
     activeIndex: number;
     setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
     getListInfo: ({ word, list }: IGetListInfo) => Promise<void>;
     setPage: React.Dispatch<React.SetStateAction<number>>;
     isSearch: boolean;
+    isPostItem: (props: IPostsItem | ICaseItem) => props is IPostsItem;
+    setSearchInputValue: React.Dispatch<React.SetStateAction<string>>;
+    searchInputValue: string;
 }
 
 export default function SecondSidebar({
@@ -21,9 +25,11 @@ export default function SecondSidebar({
     setActiveIndex,
     getListInfo,
     setPage,
-    isSearch
+    isSearch,
+    isPostItem,
+    setSearchInputValue,
+    searchInputValue
 }: ISecondSidebarProps) {
-    const [searchInputValue, setSearchInputValue] = useState('')
     const scrollRef = useRef<HTMLDivElement>(null)
     const handleSearchInputPress = () => {
         getListInfo({
@@ -77,29 +83,31 @@ export default function SecondSidebar({
                         >
                             <p className={styles.item_title}>{listItem.title}</p>
                             <p className={styles.item_content}>{listItem.content}</p>
-                            <div className={styles.icon_layout}>
-                                <div className={styles.icon_item_layout}>
-                                    <MyIcon
-                                        className={styles.list_item_icon}
-                                        type="icon-dianzan_kuai"
-                                    />
-                                    <p className={styles.number}>{listItem.goodNumber}</p>
+                            {
+                                isPostItem(listItem) && <div className={styles.icon_layout}>
+                                    <div className={styles.icon_item_layout}>
+                                        <MyIcon
+                                            className={styles.list_item_icon}
+                                            type="icon-dianzan_kuai"
+                                        />
+                                        <p className={styles.number}>{listItem.goodNumber}</p>
+                                    </div>
+                                    <div className={styles.icon_item_layout}>
+                                        <MyIcon
+                                            className={styles.list_item_icon}
+                                            type="icon-pinglun"
+                                        />
+                                        <p className={styles.number}>{listItem.messageNumber}</p>
+                                    </div>
+                                    <div className={styles.icon_item_layout}>
+                                        <MyIcon
+                                            className={styles.list_item_icon}
+                                            type="icon-guanzhu-yiguanzhu"
+                                        />
+                                        <p className={styles.number}>{listItem.collectNumber}</p>
+                                    </div>
                                 </div>
-                                <div className={styles.icon_item_layout}>
-                                    <MyIcon
-                                        className={styles.list_item_icon}
-                                        type="icon-pinglun"
-                                    />
-                                    <p className={styles.number}>{listItem.messageNumber}</p>
-                                </div>
-                                <div className={styles.icon_item_layout}>
-                                    <MyIcon
-                                        className={styles.list_item_icon}
-                                        type="icon-guanzhu-yiguanzhu"
-                                    />
-                                    <p className={styles.number}>{listItem.collectNumber}</p>
-                                </div>
-                            </div>
+                            }
                             {index !== list.length - 1 && <Divider className={styles.divider} />}
                         </div>
                     })

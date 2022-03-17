@@ -7,14 +7,16 @@ import { MyIcon } from 'utils';
 import Comment from '../comment';
 import { httpSuccessCode } from 'consts';
 import { followUserApi } from 'api/user';
+import { ICaseItem } from 'api/case';
 
 interface IMainProps {
-    item?: IPostsItem;
+    item?: IPostsItem | ICaseItem;
+    isPostItem: (props: IPostsItem | ICaseItem) => props is IPostsItem;
 }
 
-export default function Main({ item }: IMainProps) {
+export default function Main({ item, isPostItem }: IMainProps) {
     const [isGood, setIsGood] = useState(false)
-    const [isFollow, setIsFollow] = useState(item ? item.isFollow : false)
+    const [isFollow, setIsFollow] = useState(false)
     const [isCollect, setIsCollect] = useState(false)
     const handleClickGood = async () => {
         if (!item) {
@@ -66,11 +68,13 @@ export default function Main({ item }: IMainProps) {
     }
     useEffect(() => {
         if (item) {
-            setIsGood(item.isGood);
+            if (isPostItem(item)) {
+                setIsGood(item.isGood);
+                setIsCollect(item.isCollect);
+            }
             setIsFollow(item.isFollow);
-            setIsCollect(item.isCollect);
         }
-    }, [item])
+    }, [isPostItem, item])
 
     return (
         <>
@@ -100,32 +104,36 @@ export default function Main({ item }: IMainProps) {
                         </div>
                         <h1 className={styles.title}>{item.title}</h1>
                         <p className={styles.content}>{item.content}</p>
-                        <Comment postID={item.id} />
-                        <div className={styles.operation_layout}>
-                            <div className={styles.operation_item_layout}>
-                                <MyIcon
-                                    className={`${styles.operation_icon} ${isGood && styles.operation_active_icon}`}
-                                    type="icon-dianzan_kuai"
-                                    onClick={handleClickGood}
-                                />
-                                <p className={styles.number}>{item.goodNumber}</p>
-                            </div>
-                            <div className={styles.operation_item_layout}>
-                                <MyIcon
-                                    className={styles.operation_icon}
-                                    type="icon-pinglun"
-                                />
-                                <p className={styles.number}>{item.messageNumber}</p>
-                            </div>
-                            <div className={styles.operation_item_layout}>
-                                <MyIcon
-                                    className={`${styles.operation_icon} ${isCollect && styles.operation_active_icon}`}
-                                    type="icon-guanzhu-yiguanzhu"
-                                    onClick={collectPost}
-                                />
-                                <p className={styles.number}>{item.collectNumber}</p>
-                            </div>
-                        </div>
+                        {
+                            isPostItem(item) && <>
+                                <Comment postID={item.id} />
+                                <div className={styles.operation_layout}>
+                                    <div className={styles.operation_item_layout}>
+                                        <MyIcon
+                                            className={`${styles.operation_icon} ${isGood && styles.operation_active_icon}`}
+                                            type="icon-dianzan_kuai"
+                                            onClick={handleClickGood}
+                                        />
+                                        <p className={styles.number}>{item.goodNumber}</p>
+                                    </div>
+                                    <div className={styles.operation_item_layout}>
+                                        <MyIcon
+                                            className={styles.operation_icon}
+                                            type="icon-pinglun"
+                                        />
+                                        <p className={styles.number}>{item.messageNumber}</p>
+                                    </div>
+                                    <div className={styles.operation_item_layout}>
+                                        <MyIcon
+                                            className={`${styles.operation_icon} ${isCollect && styles.operation_active_icon}`}
+                                            type="icon-guanzhu-yiguanzhu"
+                                            onClick={collectPost}
+                                        />
+                                        <p className={styles.number}>{item.collectNumber}</p>
+                                    </div>
+                                </div>
+                            </>
+                        }
                     </div >
                     : <div></div>
             }

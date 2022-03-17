@@ -11,10 +11,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import SecondSidebar from 'components/home/secondSidebar';
 import { getPostsListApi, IPostsItem } from 'api/posts';
 import Main from 'components/home/main';
+import { getCaseListApi, ICaseItem } from 'api/case';
 
 export interface IGetListInfo {
     word?: string;
-    list: IPostsItem[];
+    list: (IPostsItem | ICaseItem)[];
     page?: number;
 }
 
@@ -26,7 +27,8 @@ export interface IHomeParams {
 
 export default function Home() {
     const [activeIndex, setActiveIndex] = useState(0)
-    const [list, setList] = useState<IPostsItem[]>([])
+    const [searchInputValue, setSearchInputValue] = useState('')
+    const [list, setList] = useState<(IPostsItem | ICaseItem)[]>([])
     const [page, setPage] = useState(1)
     const [isSearch, setIsSearch] = useState(false)
     const params = useParams<IHomeParams>();
@@ -41,7 +43,7 @@ export default function Home() {
         const requestObj = word ? { word } : { page };
         const requestApiMap = {
             post: getPostsListApi,
-            case: getPostsListApi,
+            case: getCaseListApi,
             my: getPostsListApi,
         }
         const type: IParamsType = params.type || 'post';
@@ -71,6 +73,15 @@ export default function Home() {
             message.error(msg);
         }
     }, [navigate, dispatch])
+    const isPostItem = (props: IPostsItem | ICaseItem): props is IPostsItem => {
+        return (props as IPostsItem).isGood !== undefined;
+    }
+    const clear = () => {
+        setList([]);
+        setPage(1);
+        setSearchInputValue('')
+        setIsSearch(false)
+    }
     useEffect(() => {
         getUserInfo();
     }, [getUserInfo])
@@ -79,12 +90,12 @@ export default function Home() {
             list,
             page
         });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getListInfo, page])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page, params.type])
 
     return (
         <div className={styles.layout}>
-            <SideBar />
+            <SideBar clear={clear} />
             <SecondSidebar
                 list={list}
                 activeIndex={activeIndex}
@@ -92,8 +103,14 @@ export default function Home() {
                 getListInfo={getListInfo}
                 setPage={setPage}
                 isSearch={isSearch}
+                isPostItem={isPostItem}
+                searchInputValue={searchInputValue}
+                setSearchInputValue={setSearchInputValue}
             />
-            <Main item={list[activeIndex]} />
+            <Main
+                item={list[activeIndex]}
+                isPostItem={isPostItem}
+            />
         </div>
     )
 }

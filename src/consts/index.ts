@@ -49,7 +49,7 @@ export const sideBarArr: ISideBarItem[] = [
     },
     {
         name: '案件列表',
-        icon: 'icon-wode1',
+        icon: 'icon-case-file-full',
         type: 'case'
     },
     {

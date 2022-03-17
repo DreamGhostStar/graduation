@@ -15,12 +15,17 @@ interface IUser {
   user: IUserConfig;
 }
 
-export default function SideBar() {
+interface ISideBarProps {
+  clear: () => void;
+}
+
+export default function SideBar({ clear }: ISideBarProps) {
   const user = useSelector((state: IUser) => state.user);
   const navigate = useNavigate();
   const params = useParams<IHomeParams>();
   const handleClickSideBarItem = (item: ISideBarItem) => {
     navigate(`/${item.type}`);
+    clear();
   }
 
   return (
