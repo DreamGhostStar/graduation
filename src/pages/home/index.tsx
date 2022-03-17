@@ -73,8 +73,13 @@ export default function Home() {
             message.error(msg);
         }
     }, [navigate, dispatch])
+    // 判断是否是贴子item
     const isPostItem = (props: IPostsItem | ICaseItem): props is IPostsItem => {
         return (props as IPostsItem).isGood !== undefined;
+    }
+    // 判断是否是案件item
+    const isCaseItem = (props: IPostsItem | ICaseItem): props is ICaseItem => {
+        return (props as ICaseItem).pickUser !== undefined;
     }
     const clear = () => {
         setList([]);
@@ -110,6 +115,10 @@ export default function Home() {
             <Main
                 item={list[activeIndex]}
                 isPostItem={isPostItem}
+                isCaseItem={isCaseItem}
+                activeIndex={activeIndex}
+                setList={setList}
+                list={list}
             />
         </div>
     )

@@ -112,3 +112,8 @@ export const baseSettingArr: IBaseSettingItem[] = [
         sign: 'introduction'
     }
 ]
+
+// 案件列表
+// 处理用户接取案件标题
+
+export const pickCaseUserTitle = '接取用户列表';

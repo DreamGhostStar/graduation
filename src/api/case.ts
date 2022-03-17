@@ -14,9 +14,11 @@ export interface ICaseItem {
     content: string;
     author: IAuthor;
     isFollow: boolean;
+    deadlineTime: string;
     // 接取者
-    pickUserList: {
+    pickUser: {
         isLook: boolean;
+        isPick: boolean;
         list: IAuthor[];
     };
 }
@@ -25,8 +27,19 @@ interface IGetCaseListResponse {
     list: ICaseItem[];
 }
 
-// 发送贴子评论接口
+interface IEntrustCaseRequest {
+    userID: number;
+    isEntrust: boolean;
+}
+
+// 获取案件列表接口
 export const getCaseListApi = async (data: IGetCaseListRequest) => {
     const headers = setUserTokenHeaders();
     return await Http.request<IGetCaseListResponse>(`${backIP}/api/case/list`, data, 'get', headers)
+}
+
+// 发布者委托/取消委托接口
+export const entrustCaseApi = async (data: IEntrustCaseRequest) => {
+    const headers = setUserTokenHeaders();
+    return await Http.request<string>(`${backIP}/api/case/entrust`, data, 'put', headers)
 }

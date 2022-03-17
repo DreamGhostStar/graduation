@@ -12,6 +12,7 @@ export interface IAuthor {
     name: string;
     avatar: string;
     introduction: string;
+    isPick?: boolean;
 }
 
 export interface IPostsItem {

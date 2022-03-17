@@ -33,6 +33,13 @@
         text-align: center;
         font-size: 32px;
         margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .deadline {
+        text-align: center;
+        margin-bottom: 10px;
+        color: grey;
     }
 
     .content {
@@ -67,6 +74,74 @@
 
             .number {
                 margin-left: 5px;
+            }
+        }
+    }
+
+    .pick_layout {
+        display: flex;
+        justify-content: center;
+    }
+
+    .look_layout {
+        .pick_user_title {
+            margin-bottom: 20px;
+        }
+
+        .pick_user_layout {
+            display: grid;
+            grid-template-columns: repeat(4, 23%);
+            grid-row-gap: 20px;
+            grid-column-gap: 20px;
+
+            .pick_user_item_layout {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background-color: #eee;
+                position: relative;
+                height: 170px;
+
+                .pick_user_item_avatar {
+                    margin: 10px 0 6px 0;
+                }
+
+                .pick_user_item_name {
+                    font-weight: bold;
+                    margin-bottom: 16px;
+                }
+
+                .pick_user_item_introduction {
+                    width: 80%;
+                    text-align: center;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .pick_user_operation {
+                    width: 100%;
+                    background-color: rgba($color: #00CCFF, $alpha: .4);
+                    position: absolute;
+                    bottom: 0;
+                    display: flex;
+                    justify-content: space-around;
+                    padding: 6px 0;
+
+                    .pick_user_operation_icon {
+                        font-size: 22px;
+                        display: inline-block;
+                        cursor: pointer;
+
+                        &_normal {
+                            color: red;
+                        }
+
+                        &_pick {
+                            color: blue;
+                        }
+                    }
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 import { Button, Divider, Input } from 'antd';
 import { projectName } from 'consts';
-import React, { ChangeEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, useRef } from 'react'
 import styles from './style.module.scss';
 import { MyIcon } from 'utils';
 import { IPostsItem } from 'api/posts';

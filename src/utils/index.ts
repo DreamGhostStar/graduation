@@ -2,7 +2,7 @@ import { createFromIconfontCN } from '@ant-design/icons';
 import cookie from 'react-cookies'
 
 export const MyIcon = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_3222236_agm2tl1sdm.js'
+  scriptUrl: '//at.alicdn.com/t/font_3222236_zxsiorsmqhi.js'
 });
 
 export const getOverdueWithThreeDay = () => {
