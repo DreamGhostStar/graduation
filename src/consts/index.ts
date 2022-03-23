@@ -20,7 +20,7 @@ export const forgetPasswordText = '忘记密码';
 // 使用已有账号进行登录
 export const useExistingAccountText = '已有账号登陆';
 // 重置密码
-export const resetPasswordText = '重置密码'
+export const resetPasswordText = '重置密码';
 
 // 用户名校验reg和错误信息
 export const emptyErrorText = '输入不能为空';
@@ -53,9 +53,14 @@ export const sideBarArr: ISideBarItem[] = [
         type: 'case'
     },
     {
-        name: '我的',
-        icon: 'icon-wode1',
-        type: 'my'
+        name: '日程管理',
+        icon: 'icon-richeng',
+        type: 'schedule'
+    },
+    {
+        name: '发布编辑',
+        icon: 'icon-richeng',
+        type: 'edit'
     }
 ];
 

@@ -1,0 +1,110 @@
+.layout {
+    .mask {
+        background-color: #F4F5F5;
+        width: 100%;
+        height: 100vh;
+        top: 0;
+        position: fixed;
+        z-index: 1;
+    }
+
+    .main_layout {
+        width: 960px;
+        margin: 40px auto;
+        display: flex;
+        position: relative;
+        z-index: 3;
+
+        .main {
+            width: 708px;
+
+            .user_layout {
+                display: flex;
+                padding: 30px;
+                background-color: white;
+
+                .avatar {
+                    border-radius: 50%;
+                }
+
+                .user_info {
+                    margin-left: 28px;
+
+                    .user_nickname {
+                        font-weight: bold;
+                        font-size: 22px;
+                    }
+
+                    .introduction {
+                        margin-top: 12px;
+                        display: flex;
+                        align-items: center;
+
+                        .introduction_icon {
+                            font-size: 20px;
+                            color: grey;
+                        }
+                    }
+                }
+            }
+
+            .detail_layout {
+                margin-top: 10px;
+                background-color: white;
+
+                :global(.detail_tab_layout .ant-tabs-nav) {
+                    padding: 0 20px;
+                    margin-bottom: 0 !important;
+                }
+            }
+        }
+
+        .sidebar {
+            width: 240px;
+            margin-left: 12px;
+            position: fixed;
+
+            .follow_layout {
+                background-color: white;
+                display: flex;
+
+                .follow {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin: 10px 0;
+
+                    &:first-child {
+                        border-right: #f3f3f4 1px solid;
+                    }
+
+                    .follow_text {
+                        font-weight: bold;
+                        font-size: 16px;
+                    }
+                }
+            }
+
+            .sidebar_item_layout {
+                margin-top: 20px;
+
+                .sidebar_item {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px 0;
+                    border-top: 1px solid rgba(230, 230, 231, .5);
+
+                    .sidebar_item_text {
+                        font-size: 16px;
+                        font-weight: 500;
+                    }
+
+                    &:last-child {
+                        border-bottom: 1px solid rgba(230, 230, 231, .5);
+                    }
+                }
+            }
+        }
+    }
+}

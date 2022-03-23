@@ -15,7 +15,15 @@ export interface IUserConfig {
     identity?: IIdentity;
     postsNumber?: number;
     caseNumber?: number;
+    // 关注了多少人
+    followNumber?: number;
+    // 被多少人关注
+    followedNumber?: number;
+    // 收藏数量
+    collectNumber?: number;
     office?: IOfficeItem;
+    joinTime?: string;
+    isAdministrator?: boolean;
 }
 
 export interface IStoreConfig {

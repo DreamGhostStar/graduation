@@ -19,6 +19,7 @@ export interface IPostsItem {
     id: number;
     title: string;
     content: string;
+    introduction: string;
     author: IAuthor;
     messageNumber: number;
     goodNumber: number;
@@ -44,7 +45,21 @@ interface ICollectPostsRequest {
     isCollect: boolean;
 }
 
-// 修改用户教务信息接口
+// 贴子，收藏，赞，评论
+export type IPostListPropsType = 'post' | 'collect' | 'good' | 'message';
+
+interface IGetPostsListByUserIDRequest {
+    userID: number;
+    type: IPostListPropsType;
+}
+
+interface IAddPostRequest {
+    title: string;
+    content: string;
+    introduction: string;
+}
+
+// 获取帖子列表接口
 export const getPostsListApi = async (data: IGetPostsListRequest) => {
     const headers = setUserTokenHeaders();
     return await Http.request<IGetPostsListResponse>(`${backIP}/api/post/list`, data, 'get', headers)
@@ -60,4 +75,16 @@ export const goodPostsApi = async (data: IGoodPostsRequest) => {
 export const collectPostsApi = async (data: ICollectPostsRequest) => {
     const headers = setUserTokenHeaders();
     return await Http.request<string>(`${backIP}/api/post/collect`, data, 'put', headers)
+}
+
+// 根据用户ID获取帖子收藏列表接口
+export const getPostsListByUserIDApi = async (data: IGetPostsListByUserIDRequest) => {
+    const headers = setUserTokenHeaders();
+    return await Http.request<IPostsItem[]>(`${backIP}/api/user/post/list`, data, 'get', headers)
+}
+
+// 新增贴子接口
+export const addPostApi = async (data: IAddPostRequest) => {
+    const headers = setUserTokenHeaders();
+    return await Http.request<IPostsItem[]>(`${backIP}/api/post`, data, 'post', headers)
 }

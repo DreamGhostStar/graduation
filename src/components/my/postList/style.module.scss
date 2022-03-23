@@ -1,0 +1,60 @@
+.layout {
+    .item_layout {
+        padding: 10px 20px;
+        border-bottom: 1px #eee solid;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #fafafa;
+        }
+        
+        .header {
+            display: flex;
+
+            .header_text {
+                border-right: 1px solid #f3f3f4;
+                padding: 0 8px;
+                line-height: 14px;
+
+                &:first-child {
+                    padding-left: 0;
+                }
+
+                &:last-child {
+                    border-right: none;
+                }
+            }
+        }
+
+        .title {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .content {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+        }
+
+        .operation_layout {
+            display: flex;
+            margin-top: 6px;
+
+            .operation_item {
+                display: flex;
+                align-items: center;
+                margin-right: 18px;
+
+                .operation_icon {
+                    color: gray;
+                }
+
+                .operation_number {
+                    margin-left: 6px;
+                }
+            }
+        }
+    }
+}

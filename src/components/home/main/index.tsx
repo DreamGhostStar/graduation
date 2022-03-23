@@ -127,7 +127,7 @@ export default function Main({
                                 {item.deadlineTime}
                             </p>
                         }
-                        <p className={styles.content}>{item.content}</p>
+                        <p className={styles.content} dangerouslySetInnerHTML={{__html: item.content}}></p>
                         {
                             isPostItem(item) && <>
                                 <Comment postID={item.id} />

@@ -40,6 +40,21 @@ interface IFollowUserRequest {
     isFollow: boolean;
 }
 
+interface IGetUserInfoRequest {
+    userID?: number;
+}
+
+interface IGetFollowUserByUserIDRequest {
+    userID: number;
+}
+
+export interface IFollowUserItem {
+    id: number;
+    nickname: string;
+    isFollow: boolean;
+    avatar: string;
+}
+
 // 用户登陆接口
 export const registerApi = async (data: IRegisterRequest) => {
     return await Http.request<string>(`${backIP}/api/user/enroll`, data, 'put')
@@ -56,9 +71,9 @@ export const resetPasswordWithNoLoginApi = async (data: IResetPasswordWithoutNoL
 }
 
 // 获取用户信息接口
-export const getUserInfoApi = async () => {
+export const getUserInfoApi = async (data: IGetUserInfoRequest) => {
     const headers = setUserTokenHeaders();
-    return await Http.request<IUserConfig>(`${backIP}/api/user`, {}, 'get', headers)
+    return await Http.request<IUserConfig>(`${backIP}/api/user`, data, 'get', headers)
 }
 
 // 修改用户基本信息接口
@@ -83,4 +98,10 @@ export const alterUserLawyerInfoApi = async (data: IAlterUserLawyerInfoRequest) 
 export const followUserApi = async (data: IFollowUserRequest) => {
     const headers = setUserTokenHeaders();
     return await Http.request<string>(`${backIP}/api/user/follow`, data, 'put', headers)
+}
+
+// 根据用户ID获取用户关注列表
+export const getFollowUserByUserIDApi = async (data: IGetFollowUserByUserIDRequest) => {
+    const headers = setUserTokenHeaders();
+    return await Http.request<IFollowUserItem[]>(`${backIP}/api/user/follow/list`, data, 'get', headers)
 }

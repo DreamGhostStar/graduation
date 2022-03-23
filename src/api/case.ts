@@ -6,15 +6,18 @@ import { IAuthor } from "./posts";
 interface IGetCaseListRequest {
     page?: number;
     word?: string;
+    userID?: number;
 }
 
 export interface ICaseItem {
     id: number;
     title: string;
     content: string;
+    introduction: string;
     author: IAuthor;
     isFollow: boolean;
     deadlineTime: string;
+    createTime: string;
     // 接取者
     pickUser: {
         isLook: boolean;
@@ -32,6 +35,12 @@ interface IEntrustCaseRequest {
     isEntrust: boolean;
 }
 
+interface IAddCaseRequest {
+    title: string;
+    content: string;
+    introduction: string;
+}
+
 // 获取案件列表接口
 export const getCaseListApi = async (data: IGetCaseListRequest) => {
     const headers = setUserTokenHeaders();
@@ -42,4 +51,10 @@ export const getCaseListApi = async (data: IGetCaseListRequest) => {
 export const entrustCaseApi = async (data: IEntrustCaseRequest) => {
     const headers = setUserTokenHeaders();
     return await Http.request<string>(`${backIP}/api/case/entrust`, data, 'put', headers)
+}
+
+// 新增案件接口
+export const addCaseApi = async (data: IAddCaseRequest) => {
+    const headers = setUserTokenHeaders();
+    return await Http.request<string>(`${backIP}/api/case`, data, 'post', headers)
 }

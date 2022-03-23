@@ -12,6 +12,7 @@ import SecondSidebar from 'components/home/secondSidebar';
 import { getPostsListApi, IPostsItem } from 'api/posts';
 import Main from 'components/home/main';
 import { getCaseListApi, ICaseItem } from 'api/case';
+import { MyEditor } from 'components/common/myEditor';
 
 export interface IGetListInfo {
     word?: string;
@@ -19,7 +20,7 @@ export interface IGetListInfo {
     page?: number;
 }
 
-type IParamsType = 'post' | 'case' | 'my';
+type IParamsType = 'post' | 'case' | 'schedule' | 'edit';
 export interface IHomeParams {
     type: IParamsType;
     [key: string]: IParamsType;
@@ -44,9 +45,12 @@ export default function Home() {
         const requestApiMap = {
             post: getPostsListApi,
             case: getCaseListApi,
-            my: getPostsListApi,
-        }
+            schedule: getPostsListApi
+        };
         const type: IParamsType = params.type || 'post';
+        if (type === 'edit') {
+            return;
+        }
         const { code, data, message: msg } = await requestApiMap[type](requestObj);
 
         if (code === httpSuccessCode) {
@@ -66,7 +70,7 @@ export default function Home() {
         if (!token) {
             navigate('/login/register');
         }
-        const { code, data, message: msg } = await getUserInfoApi();
+        const { code, data, message: msg } = await getUserInfoApi({});
         if (code === httpSuccessCode) {
             dispatch({ type: USER_DATA, data });
         } else {
@@ -87,6 +91,36 @@ export default function Home() {
         setSearchInputValue('')
         setIsSearch(false)
     }
+    // 构建右侧页面
+    const buildMainProject = () => {
+        if (params.type === 'case' || params.type === 'post') {
+            return <>
+                <SecondSidebar
+                    list={list}
+                    activeIndex={activeIndex}
+                    setActiveIndex={setActiveIndex}
+                    getListInfo={getListInfo}
+                    setPage={setPage}
+                    isSearch={isSearch}
+                    isPostItem={isPostItem}
+                    searchInputValue={searchInputValue}
+                    setSearchInputValue={setSearchInputValue}
+                />
+                <Main
+                    item={list[activeIndex]}
+                    isPostItem={isPostItem}
+                    isCaseItem={isCaseItem}
+                    activeIndex={activeIndex}
+                    setList={setList}
+                    list={list}
+                />
+            </>
+        } else if (params.type === 'edit') {
+            return <MyEditor />
+        } else {
+            return <div></div>
+        }
+    }
     useEffect(() => {
         getUserInfo();
     }, [getUserInfo])
@@ -101,25 +135,7 @@ export default function Home() {
     return (
         <div className={styles.layout}>
             <SideBar clear={clear} />
-            <SecondSidebar
-                list={list}
-                activeIndex={activeIndex}
-                setActiveIndex={setActiveIndex}
-                getListInfo={getListInfo}
-                setPage={setPage}
-                isSearch={isSearch}
-                isPostItem={isPostItem}
-                searchInputValue={searchInputValue}
-                setSearchInputValue={setSearchInputValue}
-            />
-            <Main
-                item={list[activeIndex]}
-                isPostItem={isPostItem}
-                isCaseItem={isCaseItem}
-                activeIndex={activeIndex}
-                setList={setList}
-                list={list}
-            />
+            {buildMainProject()}
         </div>
     )
 }

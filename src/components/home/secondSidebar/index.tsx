@@ -82,7 +82,7 @@ export default function SecondSidebar({
                             onClick={() => setActiveIndex(index)}
                         >
                             <p className={styles.item_title}>{listItem.title}</p>
-                            <p className={styles.item_content}>{listItem.content}</p>
+                            <p className={styles.item_introduction}>{listItem.introduction}</p>
                             {
                                 isPostItem(listItem) && <div className={styles.icon_layout}>
                                     <div className={styles.icon_item_layout}>
