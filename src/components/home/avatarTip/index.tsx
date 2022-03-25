@@ -6,13 +6,20 @@ import cookie from 'react-cookies';
 import { tokenKey } from 'consts';
 import { useNavigate } from 'react-router';
 import AccountSetting from '../accountSetting';
+import { useSelector } from 'react-redux';
+import { IStoreConfig } from 'redux/action-types';
 
 export default function AvatarTip() {
+    const user = useSelector((state: IStoreConfig) => state.user);
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate();
     const handleExit = () => {
         cookie.remove(tokenKey);
         navigate('/login/register');
+    }
+    // 进入我的页面
+    const entryMyPage = () => {
+        navigate(`/user/${user.id}`);
     }
     return (
         <>
@@ -31,6 +38,11 @@ export default function AvatarTip() {
                 <div className={styles.row_layout} onClick={() => setVisible(true)}>
                     <MyIcon className={styles.icon} type="icon-shezhi" />
                     <p className={styles.text}>账号设置</p>
+                </div>
+                <Divider className={styles.divider} />
+                <div className={styles.row_layout} onClick={entryMyPage}>
+                    <MyIcon className={styles.icon} type="icon-wode" />
+                    <p className={styles.text}>我的页面</p>
                 </div>
                 <Divider className={styles.divider} />
                 <div className={styles.row_layout} onClick={handleExit}>

@@ -10,7 +10,11 @@ interface router {
 
 const routers: Array<router> = [
     {
-        path: '/:type',
+        path: '/home/:type',
+        component: <Home />
+    },
+    {
+        path: '/home/:type/:id',
         component: <Home />
     },
     {

@@ -6,6 +6,7 @@ type IIdentity = 'user' | 'administrator';
 
 // 用户信息接口
 export interface IUserConfig {
+    id?: number;
     avatar?: string;
     nickname?: string;
     username?: string;

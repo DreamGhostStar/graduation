@@ -9,6 +9,7 @@ import { httpSuccessCode, pickCaseUserTitle } from 'consts';
 import { followUserApi } from 'api/user';
 import { entrustCaseApi, ICaseItem } from 'api/case';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router';
 
 interface IMainProps {
     item?: IPostsItem | ICaseItem;
@@ -28,6 +29,7 @@ export default function Main({
     list
 }: IMainProps) {
     const [isFollow, setIsFollow] = useState(false)
+    const navigate = useNavigate();
 
     const handleClickGood = async (item: IPostsItem) => {
         const { code, message: msg } = await goodPostsApi({
@@ -88,6 +90,15 @@ export default function Main({
             message.error(msg);
         }
     }
+    // 进入修改页面
+    const entryAlterPage = () => {
+        if (!item) {
+            message.error('系统繁忙，请稍后重试');
+            return;
+        }
+        const type = isCaseItem(item) ? 'case' : 'post'
+        navigate(`/home/edit/${type}-${item.id}`);
+    }
     useEffect(() => {
         if (item) {
             setIsFollow(item.isFollow);
@@ -127,7 +138,18 @@ export default function Main({
                                 {item.deadlineTime}
                             </p>
                         }
-                        <p className={styles.content} dangerouslySetInnerHTML={{__html: item.content}}></p>
+                        <p className={styles.content} dangerouslySetInnerHTML={{ __html: item.content }}></p>
+                        {
+                            item.isMy && <div className={styles.alter_layout}>
+                                <Tooltip title="修改贴子">
+                                    <MyIcon
+                                        type="icon-cangpeitubiao_xiugaixiugaiziliao"
+                                        className={styles.alter_icon}
+                                        onClick={entryAlterPage}
+                                    />
+                                </Tooltip>
+                            </div>
+                        }
                         {
                             isPostItem(item) && <>
                                 <Comment postID={item.id} />

@@ -24,10 +24,22 @@ export interface ICaseItem {
         isPick: boolean;
         list: IAuthor[];
     };
+    isMy: boolean;
 }
 
 interface IGetCaseListResponse {
     list: ICaseItem[];
+}
+
+interface IGetCaseRequest {
+    id?: number;
+}
+
+interface IAlterCaseRequest {
+    id?: number;
+    title: string;
+    content: string;
+    introduction: string;
 }
 
 interface IEntrustCaseRequest {
@@ -45,6 +57,18 @@ interface IAddCaseRequest {
 export const getCaseListApi = async (data: IGetCaseListRequest) => {
     const headers = setUserTokenHeaders();
     return await Http.request<IGetCaseListResponse>(`${backIP}/api/case/list`, data, 'get', headers)
+}
+
+// 获取案件信息接口
+export const getCaseInfoApi = async (data: IGetCaseRequest) => {
+    const headers = setUserTokenHeaders();
+    return await Http.request<ICaseItem>(`${backIP}/api/case`, data, 'get', headers)
+}
+
+// 修改案件信息接口
+export const alterCaseInfoApi = async (data: IAlterCaseRequest) => {
+    const headers = setUserTokenHeaders();
+    return await Http.request<ICaseItem>(`${backIP}/api/case`, data, 'put', headers)
 }
 
 // 发布者委托/取消委托接口

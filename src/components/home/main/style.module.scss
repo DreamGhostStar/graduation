@@ -47,6 +47,16 @@
         margin-bottom: 40px;
     }
 
+    .alter_layout {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 20px;
+
+        .alter_icon {
+            font-size: 18px;
+        }
+    }
+
     .operation_layout {
         position: fixed;
         bottom: 0;

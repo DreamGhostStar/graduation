@@ -39,7 +39,7 @@ export default function Register({ jump }: IRegisterProps) {
         if (code === httpSuccessCode) {
             message.success('登陆成功')
             cookie.save(tokenKey, data, { path: '/', expires: getOverdueWithThreeDay() });
-            navigate('/')
+            navigate('/home/post')
         } else {
             message.error(msg);
         }

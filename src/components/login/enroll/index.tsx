@@ -41,7 +41,7 @@ export default function Enroll({ jump }: IEnrollProps) {
         if (code === httpSuccessCode) {
             message.success('注册成功')
             cookie.save(tokenKey, data, { path: '/', expires: getOverdueWithThreeDay() });
-            navigate('/')
+            navigate('/home/post')
         } else {
             message.error(msg);
         }

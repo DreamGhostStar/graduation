@@ -9,9 +9,9 @@ import { getUserInfoApi } from 'api/user';
 import cookie from 'react-cookies';
 import { useNavigate, useParams } from 'react-router-dom';
 import SecondSidebar from 'components/home/secondSidebar';
-import { getPostsListApi, IPostsItem } from 'api/posts';
+import { getPostsInfoApi, getPostsListApi, IPostsItem } from 'api/posts';
 import Main from 'components/home/main';
-import { getCaseListApi, ICaseItem } from 'api/case';
+import { getCaseInfoApi, getCaseListApi, ICaseItem } from 'api/case';
 import { MyEditor } from 'components/home/myEditor';
 import Schedule from 'components/home/schedule';
 
@@ -19,12 +19,14 @@ export interface IGetListInfo {
     word?: string;
     list: (IPostsItem | ICaseItem)[];
     page?: number;
+    id?: number;
 }
 
 type IParamsType = 'post' | 'case' | 'schedule' | 'edit';
 export interface IHomeParams {
+    id: string;
     type: IParamsType;
-    [key: string]: IParamsType;
+    [key: string]: IParamsType | string;
 }
 
 export default function Home() {
@@ -40,22 +42,48 @@ export default function Home() {
     const getListInfo = useCallback(async ({
         word,
         list,
-        page
+        page,
+        id
     }: IGetListInfo) => {
-        const requestObj = word ? { word } : { page };
+        let requestObj = {};
+        let requestApi;
         const requestApiMap = {
             post: getPostsListApi,
             case: getCaseListApi,
-            schedule: getPostsListApi
+            edit: getPostsListApi
         };
+        const requestApiWithIDMap = {
+            post: getPostsInfoApi,
+            case: getCaseInfoApi,
+            edit: getPostsInfoApi,
+        }
         const type: IParamsType = params.type || 'post';
+        if (type === 'schedule') {
+            return;
+        }
+        // 通过id判断请求体和请求API
+        if (id !== undefined) {
+            requestObj = {
+                id
+            }
+            requestApi = requestApiWithIDMap[type];
+        } else {
+            requestObj = word ? { word } : { page };
+            requestApi = requestApiMap[type];
+        }
         if (type === 'edit') {
             return;
         }
-        const { code, data, message: msg } = await requestApiMap[type](requestObj);
+        const { code, data, message: msg } = await requestApi(requestObj);
 
         if (code === httpSuccessCode) {
-            const updateList = word ? data.list : [...list, ...data.list];
+            let updateList = [];
+            if (isPostItem(data) || isCaseItem(data)) {
+                updateList = [data];
+            } else {
+                updateList = word ? data.list : [...list, ...data.list];
+            }
+            console.log(updateList);
             if (word) {
                 setIsSearch(true)
             } else {
@@ -79,11 +107,11 @@ export default function Home() {
         }
     }, [navigate, dispatch])
     // 判断是否是贴子item
-    const isPostItem = (props: IPostsItem | ICaseItem): props is IPostsItem => {
+    const isPostItem = (props: any): props is IPostsItem => {
         return (props as IPostsItem).isGood !== undefined;
     }
     // 判断是否是案件item
-    const isCaseItem = (props: IPostsItem | ICaseItem): props is ICaseItem => {
+    const isCaseItem = (props: any): props is ICaseItem => {
         return (props as ICaseItem).pickUser !== undefined;
     }
     const clear = () => {
@@ -128,7 +156,8 @@ export default function Home() {
     useEffect(() => {
         getListInfo({
             list,
-            page
+            page,
+            id: params.id !== undefined ? parseInt(params.id) : undefined
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, params.type])

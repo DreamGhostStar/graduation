@@ -28,11 +28,23 @@ export interface IPostsItem {
     collectNumber: number;
     isCollect: boolean;
     isFollow: boolean;
+    isMy: boolean;
 }
 
 interface IGetPostsListResponse {
     maxPage: number;
     list: IPostsItem[];
+}
+
+interface IGetPostsInfoRequest {
+    id?: number;
+}
+
+interface IAlterPostsInfoRequest {
+    id?: number;
+    title: string;
+    content: string;
+    introduction: string;
 }
 
 interface IGoodPostsRequest {
@@ -63,6 +75,18 @@ interface IAddPostRequest {
 export const getPostsListApi = async (data: IGetPostsListRequest) => {
     const headers = setUserTokenHeaders();
     return await Http.request<IGetPostsListResponse>(`${backIP}/api/post/list`, data, 'get', headers)
+}
+
+// 获取帖子信息接口
+export const getPostsInfoApi = async (data: IGetPostsInfoRequest) => {
+    const headers = setUserTokenHeaders();
+    return await Http.request<IPostsItem>(`${backIP}/api/post`, data, 'get', headers)
+}
+
+// 修改帖子信息接口
+export const alterPostsInfoApi = async (data: IAlterPostsInfoRequest) => {
+    const headers = setUserTokenHeaders();
+    return await Http.request<IPostsItem>(`${backIP}/api/post`, data, 'put', headers)
 }
 
 // 点赞/取消点赞贴子接口
