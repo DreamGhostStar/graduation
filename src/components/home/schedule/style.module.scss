@@ -1,0 +1,38 @@
+.layout {
+    flex-grow: 1;
+    overflow-y: scroll;
+
+    .calendar_layout {
+        width: 1200px;
+        padding: 10px;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+    }
+}
+
+.schedule_layout {
+    padding: 20px;
+    
+    .date_picker_layout {
+        display: flex;
+        justify-content: space-between;
+
+        .date_picker {
+            flex-shrink: 0;
+            margin-right: 5px;
+        }
+
+        .input {
+            margin: 0 5px;
+        }
+    }
+
+    .main {
+        margin-top: 20px;
+        
+        .operation_text {
+            color: #0099FF;
+            cursor: pointer;
+        }
+    }
+}

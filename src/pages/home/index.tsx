@@ -12,7 +12,8 @@ import SecondSidebar from 'components/home/secondSidebar';
 import { getPostsListApi, IPostsItem } from 'api/posts';
 import Main from 'components/home/main';
 import { getCaseListApi, ICaseItem } from 'api/case';
-import { MyEditor } from 'components/common/myEditor';
+import { MyEditor } from 'components/home/myEditor';
+import Schedule from 'components/home/schedule';
 
 export interface IGetListInfo {
     word?: string;
@@ -118,7 +119,7 @@ export default function Home() {
         } else if (params.type === 'edit') {
             return <MyEditor />
         } else {
-            return <div></div>
+            return <Schedule />
         }
     }
     useEffect(() => {
