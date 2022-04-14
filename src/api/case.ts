@@ -1,4 +1,5 @@
 import { backIP } from "consts";
+import { ITag } from "pages/home";
 import { setUserTokenHeaders } from "utils";
 import Http from "./http";
 import { IAuthor } from "./posts";
@@ -7,6 +8,7 @@ interface IGetCaseListRequest {
     page?: number;
     word?: string;
     userID?: number;
+    tag?: ITag;
 }
 
 export interface ICaseItem {
@@ -51,6 +53,7 @@ interface IAddCaseRequest {
     title: string;
     content: string;
     introduction: string;
+    visit: string;
 }
 
 // 获取案件列表接口

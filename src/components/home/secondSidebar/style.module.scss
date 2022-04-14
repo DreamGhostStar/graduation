@@ -6,9 +6,27 @@
     height: 100vh;
     flex-shrink: 0;
 
-    .title {
-        margin: 30px 0 10px 0;
-        text-align: center;
+    .title_layout {
+        display: flex;
+        justify-content: space-between;
+        margin: 30px 10px 10px 10px;
+        align-items: center;
+
+        .title {
+            text-align: center;
+            margin: 0;
+        }
+
+        .switch_layout {
+            display: flex;
+            align-items: center;
+            color: #00CCFF;
+            cursor: pointer;
+
+            .switch_icon {
+                margin-right: 3px;
+            }
+        }
     }
 
     .search_layout {

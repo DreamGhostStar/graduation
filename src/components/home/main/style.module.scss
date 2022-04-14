@@ -12,6 +12,10 @@
         .author_info_layout {
             display: flex;
 
+            .avatar {
+                border-radius: 50%;
+            }
+
             .info_layout {
                 margin-left: 10px;
                 display: flex;
@@ -114,6 +118,7 @@
 
                 .pick_user_item_avatar {
                     margin: 10px 0 6px 0;
+                    border-radius: 50%;
                 }
 
                 .pick_user_item_name {

@@ -1,13 +1,13 @@
 import React from 'react';
 import routers from "./router/index";
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Provider } from "react-redux"
 import store from 'redux/store';
 
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           {
             routers.map((router, index) => {
@@ -20,8 +20,9 @@ function App() {
               )
             })
           }
+          <Route path="*" element={<Navigate to="/home/post" />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </Provider>
   );
 }

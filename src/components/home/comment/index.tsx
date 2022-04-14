@@ -160,6 +160,7 @@ export default function Comment({ postID, children = [], firstIndex }: IComment)
                         <Image
                             preview={false}
                             src={user.avatar}
+                            className={styles.avatar}
                             width={50}
                         />
                         <TextArea
@@ -211,7 +212,7 @@ export default function Comment({ postID, children = [], firstIndex }: IComment)
                                 <div className={styles.author_info_layout}>
                                     <Image
                                         preview={false}
-                                        className={styles.logo}
+                                        className={styles.avatar}
                                         width={30}
                                         src={listItem.author.avatar}
                                     />

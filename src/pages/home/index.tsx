@@ -20,6 +20,8 @@ export interface IGetListInfo {
     list: (IPostsItem | ICaseItem)[];
     page?: number;
     id?: number;
+    tag: ITag;
+    isForceUpdate?: boolean;
 }
 
 type IParamsType = 'post' | 'case' | 'schedule' | 'edit';
@@ -29,6 +31,8 @@ export interface IHomeParams {
     [key: string]: IParamsType | string;
 }
 
+export type ITag = 'all' | 'office';
+
 export default function Home() {
     const [activeIndex, setActiveIndex] = useState(0)
     const [searchInputValue, setSearchInputValue] = useState('')
@@ -36,6 +40,7 @@ export default function Home() {
     const [page, setPage] = useState(1)
     const [isSearch, setIsSearch] = useState(false)
     const params = useParams<IHomeParams>();
+    const [tag, setTag] = useState<ITag>('all')
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // 获取贴子列表
@@ -43,7 +48,9 @@ export default function Home() {
         word,
         list,
         page,
-        id
+        id,
+        tag,
+        isForceUpdate
     }: IGetListInfo) => {
         let requestObj = {};
         let requestApi;
@@ -74,22 +81,25 @@ export default function Home() {
         if (type === 'edit') {
             return;
         }
-        const { code, data, message: msg } = await requestApi(requestObj);
+        const { code, data, message: msg } = await requestApi({
+            ...requestObj,
+            tag
+        });
 
         if (code === httpSuccessCode) {
             let updateList = [];
+            console.log(isCaseItem(data));
             if (isPostItem(data) || isCaseItem(data)) {
                 updateList = [data];
             } else {
-                updateList = word ? data.list : [...list, ...data.list];
+                updateList = word || isForceUpdate ? data.list : [...list, ...data.list];
             }
-            console.log(updateList);
             if (word) {
                 setIsSearch(true)
             } else {
                 setIsSearch(false)
             }
-            setList(updateList)
+            setList(updateList as (ICaseItem | IPostsItem)[])
         } else {
             message.error(msg);
         }
@@ -134,6 +144,9 @@ export default function Home() {
                     isPostItem={isPostItem}
                     searchInputValue={searchInputValue}
                     setSearchInputValue={setSearchInputValue}
+                    type={params.type}
+                    tag={tag}
+                    setTag={setTag}
                 />
                 <Main
                     item={list[activeIndex]}
@@ -157,7 +170,8 @@ export default function Home() {
         getListInfo({
             list,
             page,
-            id: params.id !== undefined ? parseInt(params.id) : undefined
+            id: params.id !== undefined ? parseInt(params.id) : undefined,
+            tag
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, params.type])

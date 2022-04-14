@@ -1,6 +1,10 @@
 .layout {
     $activeColor: #1e80ff;
 
+    .avatar {
+        border-radius: 50%;
+    }
+
     .first_layout {
         position: relative;
 
