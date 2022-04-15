@@ -19,7 +19,9 @@ export default function AvatarTip() {
     }
     // 进入我的页面
     const entryMyPage = () => {
-        navigate(`/user/${user.id}`);
+        if (user) {
+            navigate(`/user/${user.id}`);
+        }
     }
     return (
         <>

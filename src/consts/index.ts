@@ -61,6 +61,11 @@ export const sideBarArr: ISideBarItem[] = [
         name: '发布编辑',
         icon: 'icon-richeng',
         type: 'edit'
+    },
+    {
+        name: '人员管理',
+        icon: 'icon-teamwork-full',
+        type: 'personnel'
     }
 ];
 

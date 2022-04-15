@@ -28,7 +28,7 @@ export interface IUserConfig {
 }
 
 export interface IStoreConfig {
-    user: IUserConfig;
+    user?: IUserConfig;
 }
 
 // 传递登录用户的数据

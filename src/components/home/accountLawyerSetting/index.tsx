@@ -1,6 +1,5 @@
 import { AutoComplete, Button, message } from 'antd';
 import { applyGetIntoOfficeApi, IOfficeItem, searchOfficeInfoApi } from 'api/office';
-import { alterUserLawyerInfoApi } from 'api/user';
 import { httpSuccessCode } from 'consts';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
@@ -53,12 +52,14 @@ export default function AccountLawyerSetting({ title }: IAccountLawyerSettingPro
     }
 
     useEffect(() => {
-        setOccupation(user.occupation!)
-        if(user.office) {
-            setInputValue(user.office.value)
-            setOffice(user.office)
+        if (user) {
+            setOccupation(user.occupation!)
+            if(user.office) {
+                setInputValue(user.office.value)
+                setOffice(user.office)
+            }
         }
-    }, [user.occupation, user.office])
+    }, [user, user?.occupation, user?.office])
 
     return (
         <div className={styles.layout}>
@@ -73,7 +74,7 @@ export default function AccountLawyerSetting({ title }: IAccountLawyerSettingPro
                         <p className={styles.title_sign}>*</p>
                         <p className={styles.input_title}>律师事务所 </p>
                         {
-                            user.office && <p>: {user.office.value}</p>
+                            user?.office && <p>: {user.office.value}</p>
                         }
                     </div>
                     <div className={styles.info_layout}>

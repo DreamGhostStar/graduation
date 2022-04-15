@@ -159,7 +159,7 @@ export default function Comment({ postID, children = [], firstIndex }: IComment)
                     <div className={styles.first_comment_input_layout}>
                         <Image
                             preview={false}
-                            src={user.avatar}
+                            src={user?.avatar}
                             className={styles.avatar}
                             width={50}
                         />

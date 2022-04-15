@@ -14,6 +14,7 @@ import Main from 'components/home/main';
 import { getCaseInfoApi, getCaseListApi, ICaseItem } from 'api/case';
 import { MyEditor } from 'components/home/myEditor';
 import Schedule from 'components/home/schedule';
+import Person from 'components/home/person';
 
 export interface IGetListInfo {
     word?: string;
@@ -24,7 +25,7 @@ export interface IGetListInfo {
     isForceUpdate?: boolean;
 }
 
-type IParamsType = 'post' | 'case' | 'schedule' | 'edit';
+type IParamsType = 'post' | 'case' | 'schedule' | 'edit' | 'personnel';
 export interface IHomeParams {
     id: string;
     type: IParamsType;
@@ -65,7 +66,7 @@ export default function Home() {
             edit: getPostsInfoApi,
         }
         const type: IParamsType = params.type || 'post';
-        if (type === 'schedule') {
+        if (type === 'schedule' || type === 'personnel') {
             return;
         }
         // 通过id判断请求体和请求API
@@ -159,8 +160,10 @@ export default function Home() {
             </>
         } else if (params.type === 'edit') {
             return <MyEditor />
-        } else {
+        } else if (params.type === 'schedule') {
             return <Schedule />
+        } else {
+            return <Person />
         }
     }
     useEffect(() => {

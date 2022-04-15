@@ -47,11 +47,13 @@ export default function AccountBaseSetting({ title }: IAccountBaseSettingProps) 
     const [nicknameError, setNicknameError] = useState('')
 
     useEffect(() => {
-        setUsername(user.username!)
-        setNickname(user.nickname!)
-        setIntroduction(user.introduction!)
-        setAvatar(user.avatar!)
-    }, [user.username, user.nickname, user.introduction, user.avatar])
+        if (user) {
+            setUsername(user.username!)
+            setNickname(user.nickname!)
+            setIntroduction(user.introduction!)
+            setAvatar(user.avatar!)
+        }
+    }, [user?.username, user?.nickname, user?.introduction, user?.avatar, user])
 
 
     const valueMap: IValueMap = {

@@ -2,6 +2,7 @@ import { backIP } from "consts"
 import { IUserConfig } from "redux/action-types"
 import { setUserTokenHeaders } from "utils"
 import Http from "./http"
+import { IOfficeIdentity } from "./office";
 
 interface IRegisterRequest {
     username: string;
@@ -32,7 +33,9 @@ interface IResetPasswordWithLoginRequest {
 }
 
 interface IAlterUserLawyerInfoRequest {
-    officeID: number;
+    officeID?: number;
+    occupation?: string | null;
+    userID?: number;
 }
 
 interface IFollowUserRequest {
@@ -53,6 +56,11 @@ export interface IFollowUserItem {
     nickname: string;
     isFollow: boolean;
     avatar: string;
+}
+
+interface IAlterUserIdentityRequest {
+    userID: number;
+    identity: IOfficeIdentity;
 }
 
 // 用户登陆接口
@@ -91,7 +99,7 @@ export const resetPasswordWithLoginApi = async (data: IResetPasswordWithLoginReq
 // 修改用户律师信息接口
 export const alterUserLawyerInfoApi = async (data: IAlterUserLawyerInfoRequest) => {
     const headers = setUserTokenHeaders();
-    return await Http.request<string>(`${backIP}/api/user/lawyer`, data, 'put', headers)
+    return await Http.request<IUserConfig>(`${backIP}/api/user/lawyer`, data, 'put', headers)
 }
 
 // 关注/取消关注用户接口
@@ -104,4 +112,10 @@ export const followUserApi = async (data: IFollowUserRequest) => {
 export const getFollowUserByUserIDApi = async (data: IGetFollowUserByUserIDRequest) => {
     const headers = setUserTokenHeaders();
     return await Http.request<IFollowUserItem[]>(`${backIP}/api/user/follow/list`, data, 'get', headers)
+}
+
+// 修改用户身份信息接口
+export const alterUserIdentityApi = async (data: IAlterUserIdentityRequest) => {
+    const headers = setUserTokenHeaders();
+    return await Http.request<IUserConfig>(`${backIP}/api/user/identity`, data, 'put', headers)
 }

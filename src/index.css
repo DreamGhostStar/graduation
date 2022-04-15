@@ -23,6 +23,10 @@ p {
   border-radius: 10px;
 }
 
+.ant-modal-header {
+  border-radius: 10px;
+}
+
 .events {
     margin: 0;
     padding: 0;
