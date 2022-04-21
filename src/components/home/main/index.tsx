@@ -7,7 +7,7 @@ import { MyIcon } from 'utils';
 import Comment from '../comment';
 import { httpSuccessCode, pickCaseUserTitle } from 'consts';
 import { followUserApi } from 'api/user';
-import { entrustCaseApi, ICaseItem } from 'api/case';
+import { entrustCaseApi, ICaseItem, pickUserApi } from 'api/case';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router';
 
@@ -50,7 +50,7 @@ export default function Main({
         }
         const { code, message: msg } = await followUserApi({
             userID: item.author.id,
-            isFollow: isFollow
+            isFollow: !isFollow
         });
 
         if (code === httpSuccessCode) {
@@ -76,10 +76,11 @@ export default function Main({
         }
     }
     // 处理委托案件
-    const handlePick = async (item: IAuthor, index: number) => {
+    const handlePick = async (item: IAuthor, index: number, caseID: number) => {
         const { code, message: msg } = await entrustCaseApi({
             userID: item.id,
-            isEntrust: !item.isPick
+            isEntrust: !item.isPick,
+            caseID
         });
 
         if (code === httpSuccessCode) {
@@ -99,9 +100,24 @@ export default function Main({
         const type = isCaseItem(item) ? 'case' : 'post'
         navigate(`/home/edit/${type}-${item.id}`);
     }
+    // 处理接取请求
+    const handlePickUser = async (caseItem: ICaseItem, isPick: boolean) => {
+        const {code, message: msg} = await pickUserApi({
+            caseID: caseItem.id,
+            isPick: !isPick
+        });
+        if (code === httpSuccessCode) {
+            caseItem.pickUser.isPick = !isPick;
+            list[activeIndex] = caseItem;
+            setList([...list]);
+            message.success(isPick ? '取消接取成功' : '接取成功')
+        } else {
+            message.error(msg);
+        }
+    }
     useEffect(() => {
         if (item) {
-            setIsFollow(item.isFollow);
+            setIsFollow(Boolean(item.isFollow));
         }
     }, [isPostItem, item])
 
@@ -218,7 +234,7 @@ export default function Main({
                                                                             [styles.pick_user_operation_icon_normal]: true,
                                                                             [styles.pick_user_operation_icon_pick]: !pickUserItem.isPick
                                                                         })}
-                                                                        onClick={() => handlePick(pickUserItem, index)}
+                                                                        onClick={() => handlePick(pickUserItem, index, item.id)}
                                                                     />
                                                                 </Tooltip>
                                                             </div>
@@ -230,6 +246,7 @@ export default function Main({
                                         : <div className={styles.pick_layout}>
                                             <Button
                                                 type={item.pickUser.isPick ? 'default' : 'primary'}
+                                                onClick={() => handlePickUser(item, item.pickUser.isPick, )}
                                             >
                                                 {item.pickUser.isPick ? '已接取' : '接取'}
                                             </Button>

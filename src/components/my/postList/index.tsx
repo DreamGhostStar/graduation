@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { message, Empty } from 'antd';
 import { getPostsListByUserIDApi, IPostListPropsType, IPostsItem } from 'api/posts';
 import { httpSuccessCode } from 'consts';
 import { IMyParams } from 'pages/my';
@@ -17,7 +17,7 @@ export default function PostList({ type }: IPostListProps) {
   const navigate = useNavigate();
   const getPostList = useCallback(async () => {
     const { code, data, message: msg } = await getPostsListByUserIDApi({
-      userID: parseInt(params.id!),
+      userID: params.id!,
       type
     });
 
@@ -38,43 +38,53 @@ export default function PostList({ type }: IPostListProps) {
   return (
     <div className={styles.layout}>
       {
-        list.map((item, index) => {
-          return <div
-            key={index}
-            className={styles.item_layout}
-            onClick={() => entryPostItemPage(item)}
-          >
-            <div className={styles.header}>
-              <p className={styles.header_text}>{item.author.name}</p>
-              <p className={styles.header_text}>{item.createTime}</p>
-            </div>
-            <h3 className={styles.title}>{item.title}</h3>
-            <p className={styles.content}>{item.introduction}</p>
-            <div className={styles.operation_layout}>
-              <div className={styles.operation_item}>
-                <MyIcon
-                  type='icon-dianzan_kuai'
-                  className={styles.operation_icon}
-                />
-                <p className={styles.operation_number}>{item.goodNumber}</p>
-              </div>
-              <div className={styles.operation_item}>
-                <MyIcon
-                  type='icon-pinglun1'
-                  className={styles.operation_icon}
-                />
-                <p className={styles.operation_number}>{item.messageNumber}</p>
-              </div>
-              <div className={styles.operation_item}>
-                <MyIcon
-                  type='icon-guanzhu-yiguanzhu'
-                  className={styles.operation_icon}
-                />
-                <p className={styles.operation_number}>{item.collectNumber}</p>
-              </div>
-            </div>
-          </div>
-        })
+        list.length === 0
+          ? <>
+            <Empty description="暂无数据" />
+          </>
+          :
+          <>
+            {
+
+              list.map((item, index) => {
+                return <div
+                  key={index}
+                  className={styles.item_layout}
+                  onClick={() => entryPostItemPage(item)}
+                >
+                  <div className={styles.header}>
+                    <p className={styles.header_text}>{item.author.name}</p>
+                    <p className={styles.header_text}>{item.createTime}</p>
+                  </div>
+                  <h3 className={styles.title}>{item.title}</h3>
+                  <p className={styles.content}>{item.introduction}</p>
+                  <div className={styles.operation_layout}>
+                    <div className={styles.operation_item}>
+                      <MyIcon
+                        type='icon-dianzan_kuai'
+                        className={styles.operation_icon}
+                      />
+                      <p className={styles.operation_number}>{item.goodNumber}</p>
+                    </div>
+                    <div className={styles.operation_item}>
+                      <MyIcon
+                        type='icon-pinglun1'
+                        className={styles.operation_icon}
+                      />
+                      <p className={styles.operation_number}>{item.messageNumber}</p>
+                    </div>
+                    <div className={styles.operation_item}>
+                      <MyIcon
+                        type='icon-guanzhu-yiguanzhu'
+                        className={styles.operation_icon}
+                      />
+                      <p className={styles.operation_number}>{item.collectNumber}</p>
+                    </div>
+                  </div>
+                </div>
+              })
+            }
+          </>
       }
     </div>
   )

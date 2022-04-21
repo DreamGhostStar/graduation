@@ -17,9 +17,10 @@ interface IComment {
     postID: number;
     children?: IChildrenComment[];
     firstIndex?: number;
+    topCommentId?: number;
 }
 
-export default function Comment({ postID, children = [], firstIndex }: IComment) {
+export default function Comment({ postID, children = [], firstIndex, topCommentId }: IComment) {
     const user = useSelector((state: IStoreConfig) => state.user);
     const [list, setList] = useState<IGetPostCommentListResponse[] | IChildrenComment[]>(children)
     const [isCommentIndex, setIsCommentIndex] = useState<number | null>(null)
@@ -65,16 +66,20 @@ export default function Comment({ postID, children = [], firstIndex }: IComment)
     }
     // 判断是否是子评论
     const childrenIsChildrenComment = (props: IGetPostCommentListResponse | IChildrenComment): props is IChildrenComment => {
-        return (props as IGetPostCommentListResponse).children === undefined;
+        return (props as IGetPostCommentListResponse).children === undefined
+            || (props as IGetPostCommentListResponse).children.length === 0;
     }
     // 构建回复作者部分
     const buildReplyLayout = (item: IGetPostCommentListResponse | IChildrenComment) => {
         if (childrenIsChildrenComment(item)) {
-            const replyAuthorName = item.replyAuthor.name;
-            return <>
-                <p className={styles.reply_text}>回复</p>
-                <p className={styles.author_name}>{replyAuthorName}</p>
-            </>
+            if (item.replyAuthor) {
+                const replyAuthorName = item.replyAuthor.name;
+                return <>
+                    <p className={styles.reply_text}>回复</p>
+                    <p className={styles.author_name}>{replyAuthorName}</p>
+                </>
+            }
+            return <></>
         } else {
             return <></>
         }
@@ -141,7 +146,6 @@ export default function Comment({ postID, children = [], firstIndex }: IComment)
             setFirstInputValue('');
             setIsEmojiActive(false);
             setList([...list as IGetPostCommentListResponse[]])
-            console.log(list);
         } else {
             message.error(msg)
         }
@@ -262,16 +266,18 @@ export default function Comment({ postID, children = [], firstIndex }: IComment)
                                     list={list}
                                     firstIndex={firstIndex}
                                     setList={setList}
+                                    topCommentId={topCommentId}
                                 />
                             </div>
                             {
-                                childrenIsFirstComment(listItem) 
-                                && listItem.children.length > 0 
+                                childrenIsFirstComment(listItem)
+                                && listItem.children.length > 0
                                 && <div className={styles.children_layout}>
                                     <Comment
                                         postID={postID}
                                         children={listItem.children}
                                         firstIndex={index}
+                                        topCommentId={listItem.id}
                                     />
                                 </div>
                             }

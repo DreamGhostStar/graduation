@@ -3,6 +3,7 @@ import { resetPasswordWithLoginApi } from 'api/user';
 import { emptyErrorText, httpSuccessCode, passwordErrorText, passwordReg } from 'consts';
 import React, { useState } from 'react'
 import styles from './style.module.scss';
+import md5 from 'md5';
 
 interface IAlterPasswordProps {
     title: string;
@@ -45,8 +46,8 @@ export default function AlterPassword({ title }: IAlterPasswordProps) {
             return;
         }
         const { code, message: msg } = await resetPasswordWithLoginApi({
-            beforePassword: beforePassword,
-            afterPassword: afterVerifyPassword
+            beforePassword: md5(beforePassword),
+            afterPassword: md5(afterVerifyPassword)
         })
 
         if (code === httpSuccessCode) {

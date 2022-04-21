@@ -1,5 +1,10 @@
 // 后端路径
-export const backIP = 'http://127.0.0.1:4523/mock/652159'
+// mock地址
+// export const backIP = 'http://127.0.0.1:4523/mock/652159';
+// 本地地址
+export const backIP = 'http://127.0.0.1:7003';
+// 服务器地址
+// export const backIP = 'http://106.14.174.206:7003';
 
 // 请求成功状态码
 export const httpSuccessCode = 0;

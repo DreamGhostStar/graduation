@@ -49,12 +49,13 @@ export default function SecondSidebar({
     }
     // 监听点击切换tag事件
     const handleClickTag = () => {
+        const afterTag = tag === 'all' ? 'office' : 'all';
         setTag(tag === 'all' ? 'office' : 'all')
         setPage(1)
         getListInfo({
             word: '',
             list,
-            tag,
+            tag: afterTag,
             isForceUpdate: true
         })
     }

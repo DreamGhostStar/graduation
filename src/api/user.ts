@@ -44,11 +44,11 @@ interface IFollowUserRequest {
 }
 
 interface IGetUserInfoRequest {
-    userID?: number;
+    userID?: string;
 }
 
 interface IGetFollowUserByUserIDRequest {
-    userID: number;
+    userID: string;
 }
 
 export interface IFollowUserItem {
@@ -61,6 +61,16 @@ export interface IFollowUserItem {
 interface IAlterUserIdentityRequest {
     userID: number;
     identity: IOfficeIdentity;
+}
+
+interface IUploadImageResponse {
+    url: string
+}
+
+interface IUploadImageBaseResponse <T = any> {
+    errNo: number;
+    data: T;
+    message: string;
 }
 
 // 用户登陆接口
@@ -87,7 +97,7 @@ export const getUserInfoApi = async (data: IGetUserInfoRequest) => {
 // 修改用户基本信息接口
 export const alterBaseUserInfoApi = async (data: IAlterBaseUserInfoRequest) => {
     const headers = setUserTokenHeaders();
-    return await Http.request<string>(`${backIP}/api/user/base`, data, 'put', headers)
+    return await Http.request<IUserConfig>(`${backIP}/api/user/base`, data, 'put', headers)
 }
 
 // 登陆情况下重置密码接口
@@ -118,4 +128,18 @@ export const getFollowUserByUserIDApi = async (data: IGetFollowUserByUserIDReque
 export const alterUserIdentityApi = async (data: IAlterUserIdentityRequest) => {
     const headers = setUserTokenHeaders();
     return await Http.request<IUserConfig>(`${backIP}/api/user/identity`, data, 'put', headers)
+}
+
+// 获取图片验证码
+export const getVerifyImageApi = async () => {
+    return await Http.request<string>(`${backIP}/api/user/verify`, {}, 'get')
+}
+
+// 获取图片验证码
+export const uploadImageApi = async (file: File) => {
+    const formData = new FormData();
+    formData.append(file.name, file);
+    return await Http.request<IUploadImageResponse, IUploadImageBaseResponse>(`${backIP}/api/image`, formData, 'post', {
+        'Content-Type': 'multipart/form-data',
+    })
 }

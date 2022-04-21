@@ -36,6 +36,7 @@ interface IAddCommentRequest {
     postID: number;
     replyCommentID?: number;
     value: string;
+    topCommentID?: number;
 }
 
 // 获取贴子的评论列表接口

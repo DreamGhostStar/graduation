@@ -56,7 +56,7 @@ export const searchOfficeInfoApi = async (data: ISearchOfficeInfoProps) => {
 // 申请进入律师事务所接口
 export const applyGetIntoOfficeApi = async (data: IApplyGetIntoOfficeRequest) => {
     const headers = setUserTokenHeaders();
-    return await Http.request<string>(`${backIP}/api/office/apply`, data, 'post', headers)
+    return await Http.request<string>(`${backIP}/api/office/apply`, data, 'put', headers)
 }
 
 // 获取律师事务所所有人员信息

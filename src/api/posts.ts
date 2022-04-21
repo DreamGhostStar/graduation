@@ -61,7 +61,7 @@ interface ICollectPostsRequest {
 export type IPostListPropsType = 'post' | 'collect' | 'good' | 'message';
 
 interface IGetPostsListByUserIDRequest {
-    userID: number;
+    userID: string;
     type: IPostListPropsType;
 }
 

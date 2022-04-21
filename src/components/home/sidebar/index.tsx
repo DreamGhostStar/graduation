@@ -24,6 +24,9 @@ export default function SideBar({ clear }: ISideBarProps) {
   const navigate = useNavigate();
   const params = useParams<IHomeParams>();
   const handleClickSideBarItem = (item: ISideBarItem) => {
+    if (params.type === item.type) {
+      return;
+    }
     navigate(`/home/${item.type}`);
     clear();
   }

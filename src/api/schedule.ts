@@ -13,7 +13,7 @@ export interface IScheduleItem {
     key: number;
     type: PresetStatusColorType;
     content: string;
-    recordTime: string;
+    record_time: string;
 }
 
 export interface IGetScheduleListResponse {

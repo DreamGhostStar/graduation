@@ -1,9 +1,11 @@
 import { Button, Image, Input, message } from 'antd';
-import { alterBaseUserInfoApi } from 'api/user';
+import { alterBaseUserInfoApi, uploadImageApi } from 'api/user';
 import { baseSettingArr, emptyErrorText, httpSuccessCode, IBaseSettingItem } from 'consts';
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { IStoreConfig } from 'redux/action-types';
+import { useDispatch } from 'react-redux';
+import { USER_DATA } from 'redux/action-types';
 import styles from './style.module.scss';
 
 const { TextArea } = Input;
@@ -39,12 +41,14 @@ interface ChangeEventMap {
 
 export default function AccountBaseSetting({ title }: IAccountBaseSettingProps) {
     const user = useSelector((state: IStoreConfig) => state.user);
+    const dispatch = useDispatch();
     const [username, setUsername] = useState('')
     const [nickname, setNickname] = useState('')
     const [introduction, setIntroduction] = useState('')
     const [avatar, setAvatar] = useState('')
     const [usernameError, setUsernameError] = useState('')
     const [nicknameError, setNicknameError] = useState('')
+    const fileInput = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         if (user) {
@@ -116,7 +120,7 @@ export default function AccountBaseSetting({ title }: IAccountBaseSettingProps) 
             message.warning("信息不能为空");
             return;
         }
-        const { code, message: msg } = await alterBaseUserInfoApi({
+        const { code, message: msg, data } = await alterBaseUserInfoApi({
             username,
             nickname,
             introduction,
@@ -124,9 +128,30 @@ export default function AccountBaseSetting({ title }: IAccountBaseSettingProps) 
         });
 
         if (code === httpSuccessCode) {
+            dispatch({ type: USER_DATA, data });
             message.success('保存成功')
         } else {
             message.error(msg)
+        }
+    }
+    const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files
+        if (files) {
+            const file = files[0];
+            const { errNo, data, message: msg } = await uploadImageApi(file);
+            if (errNo === httpSuccessCode) {
+                setAvatar(data.url);
+                if (fileInput.current) {
+                    fileInput.current.value = ''
+                }
+            } else {
+                message.error(msg);
+            }
+        }
+    }
+    const handleClickAvatar = () => {
+        if (fileInput.current) {
+            fileInput.current.click()
         }
     }
     return (
@@ -174,7 +199,18 @@ export default function AccountBaseSetting({ title }: IAccountBaseSettingProps) 
                         preview={false}
                         className={styles.avatar}
                         width={100}
-                        src={user?.avatar}
+                        src={avatar}
+                        onClick={handleClickAvatar}
+                    />
+                    <input
+                        data-testid='file-input'
+                        type="file"
+                        className='youchen-file-input'
+                        style={{
+                            display: 'none'
+                        }}
+                        ref={fileInput}
+                        onChange={handleFileChange}
                     />
                 </div>
             </div>

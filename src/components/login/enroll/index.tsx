@@ -1,12 +1,13 @@
-import React, { ChangeEventHandler, useRef, useState } from 'react'
-import { Input, Button, Image, message } from 'antd';
+import React, { ChangeEventHandler, useCallback, useEffect, useRef, useState } from 'react'
+import { Input, Button, message } from 'antd';
 import styles from './style.module.scss';
 import { emptyErrorText, enrollText, httpSuccessCode, passwordErrorText, passwordReg, tokenKey, useExistingAccountText, usernameErrorText, usernameReg } from 'consts';
 import { IParamsType } from 'pages/login';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import { getOverdueWithThreeDay } from 'utils';
-import { enrollApi } from 'api/user';
+import { enrollApi, getVerifyImageApi } from 'api/user';
+import md5 from 'md5';
 
 interface IEnrollProps {
     jump: (method: IParamsType) => void;
@@ -19,6 +20,7 @@ export default function Enroll({ jump }: IEnrollProps) {
     const verifyPasswordRef = useRef<Input>(null)
     const [usernameError, setUsernameError] = useState('')
     const [passwordError, setPasswordError] = useState('');
+    const [verifyImage, setVerifyImage] = useState('')
     // 注册逻辑
     const handleSubmit = async () => {
         if (usernameError || passwordError) {
@@ -26,7 +28,7 @@ export default function Enroll({ jump }: IEnrollProps) {
             return;
         }
         const username = usernameRef.current?.state.value;
-        const password = passwordRef.current?.state.value;
+        const password = md5(passwordRef.current?.state.value);
         const verification = verifyPasswordRef.current?.state.value;
         if (!username || !password || !verification) {
             message.warning('输入信息不能为空值')
@@ -75,6 +77,18 @@ export default function Enroll({ jump }: IEnrollProps) {
             setPasswordError('')
         }
     }
+    const getVerifyImage = useCallback(async () => {
+        const { code, data, message: msg } = await getVerifyImageApi();
+        if (code === httpSuccessCode) {
+            setVerifyImage(data);
+        } else {
+            message.error(msg);
+        }
+    }, [])
+    useEffect(() => {
+        getVerifyImage();
+    }, [getVerifyImage])
+
     return (
         <>
             <Input
@@ -105,11 +119,7 @@ export default function Enroll({ jump }: IEnrollProps) {
                     className={styles.input_verify_code}
                     defaultValue=""
                 />
-
-                <Image
-                    className={styles.verify_img}
-                    preview={false}
-                />
+                <div className={styles.verify_img} dangerouslySetInnerHTML={{ __html: verifyImage }}></div>
             </div>
 
             <Button onClick={handleSubmit} className={styles.button} type="primary">{enrollText}</Button>

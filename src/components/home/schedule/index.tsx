@@ -24,8 +24,15 @@ export default function Schedule() {
     const columns: ColumnsType<IScheduleItem> = [
         {
             title: '日期',
-            dataIndex: 'recordTime',
-            key: 'recordTime'
+            dataIndex: 'record_time',
+            key: 'record_time',
+            render: (value: string) => {
+                return (
+                    <div>
+                        {moment(new Date(parseInt(value))).format("YYYY-MM-DD hh:mm:ss")}
+                    </div>
+                )
+            }
         },
         {
             title: '描述',
@@ -113,7 +120,7 @@ export default function Schedule() {
     const getScheduleList = useCallback(async () => {
         const { code, data, message: msg } = await getScheduleListApi({
             year: date.year(),
-            month: date.month()
+            month: date.month() + 1
         });
         if (code === httpSuccessCode) {
             setScheduleList(data)

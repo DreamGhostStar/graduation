@@ -17,7 +17,8 @@ interface ICommentInputProps {
     clear: () => void;
     list: IGetPostCommentListResponse[] | IChildrenComment[];
     firstIndex: number | undefined;
-    setList: React.Dispatch<React.SetStateAction<IGetPostCommentListResponse[] | IChildrenComment[]>>
+    setList: React.Dispatch<React.SetStateAction<IGetPostCommentListResponse[] | IChildrenComment[]>>;
+    topCommentId?: number;
 }
 
 export default function CommentInput({
@@ -30,7 +31,8 @@ export default function CommentInput({
     clear,
     list,
     firstIndex,
-    setList
+    setList,
+    topCommentId
 }: ICommentInputProps) {
     const [inputValue, setInputValue] = useState('')
     // 处理选择表情事件
@@ -52,9 +54,11 @@ export default function CommentInput({
         const {code, data, message: msg} = await addCommentApi({
             postID: postID,
             value,
-            replyCommentID: listItem.id
+            replyCommentID: listItem.id,
+            topCommentID: topCommentId
         })
 
+        console.log(listItem);
         if (code === httpSuccessCode) {
             message.success('发表成功')
             // 清除数据

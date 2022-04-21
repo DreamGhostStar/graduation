@@ -7,6 +7,7 @@ import { registerApi } from 'api/user';
 import cookie from 'react-cookies';
 import { getOverdueWithThreeDay } from 'utils';
 import { useNavigate } from 'react-router-dom';
+import md5 from 'md5';
 
 interface IRegisterProps {
     jump: (method: IParamsType) => void;
@@ -26,7 +27,7 @@ export default function Register({ jump }: IRegisterProps) {
             return;
         }
         const username = usernameRef.current?.state.value;
-        const password = passwordRef.current?.state.value;
+        const password = md5(passwordRef.current?.state.value);
         if (!username || !password) {
             message.warning('输入信息不能为空值');
             return;

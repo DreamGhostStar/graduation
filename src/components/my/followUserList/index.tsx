@@ -1,4 +1,4 @@
-import { Button, Image, message } from 'antd';
+import { Button, Empty, Image, message } from 'antd';
 import { followUserApi, getFollowUserByUserIDApi, IFollowUserItem } from 'api/user';
 import { httpSuccessCode } from 'consts';
 import { IMyParams } from 'pages/my';
@@ -11,7 +11,7 @@ export default function FollowUserList() {
     const [list, setList] = useState<IFollowUserItem[]>([]);
     const getPostList = useCallback(async () => {
         const { code, data, message: msg } = await getFollowUserByUserIDApi({
-            userID: parseInt(params.id!)
+            userID: params.id!
         });
 
         if (code === httpSuccessCode) {
@@ -42,27 +42,35 @@ export default function FollowUserList() {
     return (
         <div className={styles.layout}>
             {
-                list.map((item, index) => {
-                    return <div
-                        key={index}
-                        className={styles.item_layout}
-                    >
-                        <div className={styles.user_info_layout}>
-                            <Image
-                                preview={false}
-                                src={item.avatar}
-                                width={60}
-                                className={styles.avatar}
-                            />
-                            <p className={styles.nickname}>{item.nickname}</p>
-                        </div>
-                        <Button
-                            type={item.isFollow ? 'default' : 'primary'}
-                            className={styles.button}
-                            onClick={() => handleClickFollowButton(item, index)}
-                        >{item.isFollow ? '已关注' : '关注'}</Button>
-                    </div>
-                })
+                list.length === 0
+                    ? <>
+                        <Empty description="暂无数据" />
+                    </>
+                    :
+                    <>
+                        {
+                            list.map((item, index) => {
+                                return <div
+                                    key={index}
+                                    className={styles.item_layout}
+                                >
+                                    <div className={styles.user_info_layout}>
+                                        <Image
+                                            preview={false}
+                                            src={item.avatar}
+                                            width={60}
+                                            className={styles.avatar}
+                                        />
+                                        <p className={styles.nickname}>{item.nickname}</p>
+                                    </div>
+                                    <Button
+                                        type={item.isFollow ? 'default' : 'primary'}
+                                        className={styles.button}
+                                        onClick={() => handleClickFollowButton(item, index)}
+                                    >{item.isFollow ? '已关注' : '关注'}</Button>
+                                </div>
+                            })}
+                    </>
             }
         </div>
     )

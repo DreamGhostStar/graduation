@@ -22,7 +22,7 @@ export default function My() {
     const [userInfo, setUserInfo] = useState<IUserConfig | null>(null)
     const getUserInfo = useCallback(async () => {
         const { code, data, message: msg } = await getUserInfoApi({
-            userID: parseInt(params.id!)
+            userID: params.id!
         });
 
         if (code === httpSuccessCode) {

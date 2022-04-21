@@ -89,7 +89,6 @@ export default function Home() {
 
         if (code === httpSuccessCode) {
             let updateList = [];
-            console.log(isCaseItem(data));
             if (isPostItem(data) || isCaseItem(data)) {
                 updateList = [data];
             } else {
