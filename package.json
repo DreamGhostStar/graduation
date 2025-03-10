@@ -13,7 +13,7 @@
     "@wangeditor/editor": "^0.15.15",
     "@wangeditor/editor-for-react": "^0.6.23",
     "antd": "^4.18.9",
-    "axios": "^0.26.0",
+    "axios": "^1.8.2",
     "classnames": "^2.3.1",
     "emoji-mart": "^3.0.1",
     "md5": "^2.3.0",
